@@ -7,10 +7,12 @@ import { IUser, IUserInputDTO } from '../interfaces/IUser';
 import { EventDispatcher, EventDispatcherInterface } from '../decorators/eventDispatcher';
 import events from '../subscribers/events';
 
+import { UserModel } from '../models';
+
 @Service()
 export default class AuthService {
   constructor(
-    @Inject('userModel') private userModel: Models.UserModel,
+    @Inject('userModel') private userModel: UserModel,
     @Inject('logger') private logger,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
