@@ -1,4 +1,5 @@
 import { Service, Inject } from 'typedi';
+import createError from 'http-errors';
 import jwt from 'jsonwebtoken';
 import config from '../config';
 import argon2 from 'argon2';
@@ -49,7 +50,7 @@ export default class AuthService {
       const token = this.generateToken(userRecord);
 
       if (!userRecord) {
-        throw new Error('User cannot be created');
+        throw createError(400, 'User cannot be created');
       }
       this.logger.silly('Sending welcome email');
 
@@ -94,7 +95,7 @@ export default class AuthService {
        */
       return { user, token };
     } else {
-      throw new Error('Invalid Password');
+      throw createError(400, 'Invalid Password');
     }
   }
 

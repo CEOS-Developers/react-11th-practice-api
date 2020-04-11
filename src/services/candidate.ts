@@ -1,4 +1,5 @@
 import { Service, Inject } from 'typedi';
+import createError from 'http-errors';
 
 import { CandidateModel } from '../models';
 import { ICandidateInputDTO, ICandidate } from '../interfaces';
@@ -31,7 +32,7 @@ export default class CandidateService {
       });
 
       if (!candidateRecord) {
-        throw new Error('Candidate cannot be created');
+        throw createError(400, 'Candidate cannot be created');
       }
 
       /**
@@ -50,11 +51,11 @@ export default class CandidateService {
 
   public async Vote(id: string): Promise<{}> {
     try {
-      await this.candidateModel.update({ _id: id }, { $inc: { voteCount: 1 } });
+      await this.candidateModel.updateOne({ _id: id }, { $inc: { voteCount: 1 } });
       return {};
     } catch (e) {
       this.logger.error(e);
-      throw new Error('Candidate not found');
+      throw createError(404, 'Candidate not found');
     }
   }
 
