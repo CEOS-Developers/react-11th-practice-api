@@ -1,6 +1,5 @@
 import { Service, Inject } from 'typedi';
 import jwt from 'jsonwebtoken';
-import MailerService from './mailer';
 import config from '../config';
 import argon2 from 'argon2';
 import { randomBytes } from 'crypto';
@@ -11,10 +10,9 @@ import events from '../subscribers/events';
 @Service()
 export default class AuthService {
   constructor(
-      @Inject('userModel') private userModel : Models.UserModel,
-      private mailer: MailerService,
-      @Inject('logger') private logger,
-      @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
+    @Inject('userModel') private userModel: Models.UserModel,
+    @Inject('logger') private logger,
+    @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
   public async SignUp(userInputDTO: IUserInputDTO): Promise<{ user: IUser; token: string }> {
@@ -52,7 +50,6 @@ export default class AuthService {
         throw new Error('User cannot be created');
       }
       this.logger.silly('Sending welcome email');
-      await this.mailer.SendWelcomeEmail(userRecord);
 
       this.eventDispatcher.dispatch(events.user.signUp, { user: userRecord });
 

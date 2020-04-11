@@ -1,15 +1,16 @@
 import { Container } from 'typedi';
 import mongoose from 'mongoose';
 import { IUser } from '../../interfaces/IUser';
+import { getLogger } from '../../loaders/dependencyInjector';
 
 /**
- * Attach user to req.user
+ * Attach user to req.currentUser
  * @param {*} req Express req Object
  * @param {*} res  Express res Object
  * @param {*} next  Express next Function
  */
 const attachCurrentUser = async (req, res, next) => {
-  const Logger = Container.get('logger');
+  const Logger = getLogger();
   try {
     const UserModel = Container.get('userModel') as mongoose.Model<IUser & mongoose.Document>;
     const userRecord = await UserModel.findById(req.token._id);

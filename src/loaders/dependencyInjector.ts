@@ -1,8 +1,6 @@
 import { Container } from 'typedi';
+import winston from 'winston';
 import LoggerInstance from './logger';
-import agendaFactory from './agenda';
-import config from '../config';
-import mailgun from 'mailgun-js';
 
 export default ({ mongoConnection, models }: { mongoConnection; models: { name: string; model: any }[] }) => {
   try {
@@ -10,17 +8,15 @@ export default ({ mongoConnection, models }: { mongoConnection; models: { name: 
       Container.set(m.name, m.model);
     });
 
-    const agendaInstance = agendaFactory({ mongoConnection });
-
-    Container.set('agendaInstance', agendaInstance);
-    Container.set('logger', LoggerInstance)
-    Container.set('emailClient', mailgun({ apiKey: config.emails.apiKey, domain: config.emails.domain }))
+    Container.set('logger', LoggerInstance);
 
     LoggerInstance.info('✌️ Agenda injected into container');
 
-    return { agenda: agendaInstance };
+    return {};
   } catch (e) {
     LoggerInstance.error('🔥 Error on dependency injector loader: %o', e);
     throw e;
   }
 };
+
+export const getLogger = () => Container.get<winston.Logger>('logger');
