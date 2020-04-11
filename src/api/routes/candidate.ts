@@ -31,7 +31,7 @@ export default (app: Router) => {
       try {
         const { name } = req.body;
         const candidateServiceInstance = Container.get(CandidateService);
-        const { candidate } = await candidateServiceInstance.Create(name);
+        const { candidate } = await candidateServiceInstance.Create({ name });
         return res.json({ candidate }).status(200);
       } catch (e) {
         logger.error('🔥 error: %o', e);
