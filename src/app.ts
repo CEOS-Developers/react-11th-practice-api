@@ -6,7 +6,7 @@ import express from 'express';
 
 import Logger from './loaders/logger';
 
-async function startServer() {
+export const startServer = async () => {
   const app = express();
 
   /**
@@ -29,6 +29,4 @@ async function startServer() {
       ################################################
     `);
   });
-}
-
-startServer();
+};
