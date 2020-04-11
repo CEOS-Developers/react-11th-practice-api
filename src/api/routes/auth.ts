@@ -1,9 +1,10 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { Container } from 'typedi';
+import { celebrate, Joi } from 'celebrate';
+
+import middlewares from '../middlewares';
 import AuthService from '../../services/auth';
 import { IUserInputDTO } from '../../interfaces/IUser';
-import middlewares from '../middlewares';
-import { celebrate, Joi } from 'celebrate';
 import { getLogger } from '../../loaders/dependencyInjector';
 
 const route = Router();
