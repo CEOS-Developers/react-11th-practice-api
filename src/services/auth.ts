@@ -75,7 +75,7 @@ export default class AuthService {
   public async SignIn(email: string, password: string): Promise<{ user: IUser; token: string }> {
     const userRecord = await this.userModel.findOne({ email });
     if (!userRecord) {
-      throw new Error('User not registered');
+      throw createError(400, 'User not registered');
     }
     /**
      * We use verify from argon2 to prevent 'timing based' attacks
