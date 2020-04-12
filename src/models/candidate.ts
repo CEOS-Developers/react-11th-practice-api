@@ -1,5 +1,5 @@
-import { IUser } from '../interfaces/IUser';
 import mongoose from 'mongoose';
+import { ICandidate } from '../interfaces';
 
 const Candidate = new mongoose.Schema(
   {
@@ -17,4 +17,4 @@ const Candidate = new mongoose.Schema(
   { timestamps: true },
 );
 
-export default mongoose.model<IUser & mongoose.Document>('Candidate', Candidate);
+export default mongoose.model<ICandidate & mongoose.Document>('Candidate', Candidate);
